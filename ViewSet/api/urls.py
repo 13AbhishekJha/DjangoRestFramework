@@ -8,10 +8,13 @@ from rest_framework.routers import DefaultRouter
 router=DefaultRouter()
 
 #Register StudentViewSet with Router
-router.register('studentapi',views.StudentViewSet,basename='student')
+# router.register('studentapi',views.StudentViewSet,basename='student')
+router.register('studentapi',views.StudentModelViewSet
+,basename='student')
+
+router.register('student',views.StudentReadOnlyModelViewSet
+,basename='student')
 
 urlpatterns = [
-    # path("student",views.StudentAPI.as_view()),
-    # path("student/<int:pk>",views.StudentAPI.as_view())
     path('',include(router.urls))
 ]
