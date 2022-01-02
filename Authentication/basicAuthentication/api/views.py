@@ -1,117 +1,27 @@
-from functools import partial
-from django.db.models import query
-from rest_framework.response import Response
+from rest_framework import authentication
 from .models import Student
 from .serializers import StudentSerializers
-from rest_framework import status
-from rest_framework.views import APIView
 from django.shortcuts import render
 from rest_framework import viewsets
-
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 # Create your views here.
 
 #using ModelViewSet
 class StudentModelViewSet(viewsets.ModelViewSet):
       queryset=Student.objects.all()
       serializer_class=StudentSerializers
-
-
-#using ReadOnlyModelViewSet
-class StudentReadOnlyModelViewSet(viewsets.ReadOnlyModelViewSet):
-      queryset=Student.objects.all()
-      serializer_class=StudentSerializers
-
-
-
-
-
-######################################### using ViewSet ##############################################
-
-# class StudentViewSet(viewsets.ViewSet):
-#       def list(self,request):
-#             print("*****List****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
+      # permission_classes=[IsAdminUser] # if you want only staff_status to be true to reach out to api
+#for globally defining Authentication(i.e when you have more than one viewset and you want to set on all) see settings.py
+      # authentication_classes=[BasicAuthentication]
+      # permission_classes=[IsAuthenticated]
       
-#             stu=Student.objects.all()
-#             serializer=StudentSerializers(stu,many=True)
-#             return Response(serializer.data)
 
-#       def retrieve(self,request,pk= None):
-#             print("*****Retrieve****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
+#If you want to override default behaviour 
 
-#             id=pk
-#             if id is not None:
-#              stu=Student.objects.get(id=id)
-#              serializer=StudentSerializers(stu)
-#              return Response(serializer.data)
+# class StudentModelViewSetDummy(viewsets.ModelViewSet):
+#       queryset=Student.objects.all()
+#       serializer_class=StudentSerializers
+#       # authentication_classes=[BasicAuthentication]
+#       # permission_classes=[AllowAny]
 
-#       def create(self,request,format=None):
-#             print("*****List****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
-#             serializer=StudentSerializers(data=request.data)
-#             if serializer.is_valid():
-#              serializer.save()
-#              return Response({"msg":"created successfully"},status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors,status=status.status.HTTP_400_BAD_REQUEST) 
-
-#       def update(self,request,pk= None,format=None):
-#             print("*****Update****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
-
-#             id=pk
-#             stu=Student.objects.get(id=id)
-#             serializer=StudentSerializers(stu,data=request.data)
-#             if serializer.is_valid():
-#              serializer.save()
-#              return Response({"msg":"updated successfully"})
-#             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
-
-#       def partial_update(self,request,pk= None,format=None):
-#             print("*****Partial_update(Patch)****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
-#             id=pk
-#             stu=Student.objects.get(id=id)
-#             serializer=StudentSerializers(stu,data=request.data,partial=True)
-#             if serializer.is_valid():
-#              serializer.save()
-#              return Response({"msg":"updated successfully"})
-#             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
-      
-#       def destroy(self,request,pk= None,format=None):
-#             print("*****delete****")
-#             print("Basename:",self.basename)
-#             print("Action:",self.action)
-#             print("Detail:",self.detail)
-#             print("Suffix:",self.suffix)
-#             print("Name:",self.name)
-#             print("description:",self.description)
-#             id=pk
-#             stu=Student.objects.get(id=id)
-#             stu.delete()
-#             return Response({"msg":"Deleted successfully"})  

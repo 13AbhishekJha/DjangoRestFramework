@@ -120,3 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#globally defining Authentication
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':['rest_framework.authentication.BasicAuthentication'],
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.IsAuthenticated']
+}
