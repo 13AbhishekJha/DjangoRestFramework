@@ -5,6 +5,8 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,DjangoModelPermissions,DjangoModelPermissionsOrAnonReadOnly
+from .custompermisson import MyPermission
+
 # Create your views here.
 #do all these from admin panel user section
 #user-you need to create and check active
@@ -20,6 +22,10 @@ class StudentModelViewSet(viewsets.ModelViewSet):
       # permission_classes=[IsAdminUser] # make staff_status to be true to reach out to api
       # permission_classes=[IsAuthenticatedOrReadOnly]
       # permission_classes=[DjangoModelPermissions]#by default read permisson is given to user. To change edit it from admin panel
-      permission_classes=[DjangoModelPermissionsOrAnonReadOnly]
+      # permission_classes=[DjangoModelPermissionsOrAnonReadOnly]
+      permission_classes=[MyPermission]
+
+      
+
 
       
